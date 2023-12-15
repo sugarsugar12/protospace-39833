@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   # root "articles#index"
   root to: "prototypes#index"
   #↑prototypes_controllerのindexアクションが稼働する
-  resources :prototypes, only: [:new, :create,:index,:show,:edit,:update,:destroy] do
+  #resources :prototypes, only: [:new, :create,:index,:show,:edit,:update,:destroy] do
+  resources :prototypes do
     resources :comments, only: :create
   end
   resources :users, only: :show

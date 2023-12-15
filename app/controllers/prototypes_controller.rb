@@ -63,9 +63,11 @@ end
   # params[:prototype]
 
   def move_to_index
-    @prototype = Prototype.find(params[:id])
-    unless user_signed_in? && current_user.id == @prototype.user_id
+    @prototype = Prototype.find_by(id: params[:id])
+  
+    unless user_signed_in? && @prototype && current_user.id == @prototype.user_id
       redirect_to action: :index
     end
   end
+  
 end
