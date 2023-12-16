@@ -1,6 +1,6 @@
 class PrototypesController < ApplicationController
-  before_action :authenticate_user!
-  before_action :move_to_index, except: [:index]
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :move_to_index, except: [:index, :new,:create,:show,:update,:destroy]
 
   def index
     @prototypes=Prototype.all
@@ -47,11 +47,11 @@ class PrototypesController < ApplicationController
     end
   end
 
-def destroy
-  prototype = Prototype.find(params[:id])
-    prototype.destroy
-    redirect_to root_path
-end
+  def destroy
+    prototype = Prototype.find(params[:id])
+      prototype.destroy
+      redirect_to root_path
+  end
 
   private
   def prototype_params
@@ -61,11 +61,10 @@ end
   #   "prototype" => {"title" => "投稿のタイトル", "concept" => "楽しい", "catch_copy" => "感動をプレゼント","image" => " "},
   #          .....}
   # params[:prototype]
-
-  def move_to_index
-    @prototype = Prototype.find_by(id: params[:id])
   
-    unless user_signed_in? && @prototype && current_user.id == @prototype.user_id
+  def move_to_index
+    @prototype = Prototype.find(params[:id])
+    unless user_signed_in? && current_user.id == @prototype.user_id
       redirect_to action: :index
     end
   end
